@@ -28,7 +28,7 @@ class HomePage extends StatelessWidget {
               elevation: 3,
               clipBehavior: Clip.antiAliasWithSaveLayer,
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12)),
+                  borderRadius: BorderRadius.circular(8)),
               child: InkWell(
                 onTap: () {},
                 child: Column(

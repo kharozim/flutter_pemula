@@ -93,7 +93,7 @@ final listDummy = List.generate(
             : index % 4 == 0
                 ? 'terbaik'
                 : 'favorit',
-        price: (index + 1) * 120000,
+        price: (index + 1) * 1200000,
         stock: index % 3 == 0
             ? 2
             : index % 4 == 0

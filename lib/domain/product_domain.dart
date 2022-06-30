@@ -1,4 +1,5 @@
 class ProductDomain {
+  int id;
   String name;
   String tag;
   String image;
@@ -10,7 +11,8 @@ class ProductDomain {
   double rating;
 
   ProductDomain(
-      {required this.name,
+      {required this.id,
+      required this.name,
       required this.tag,
       required this.image,
       required this.description,

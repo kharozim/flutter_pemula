@@ -85,6 +85,7 @@ final dummyDescription = [
 final listDummy = List.generate(
     8,
     (index) => ProductDomain(
+        id: index + 1,
         name: dummyName[index],
         image: dummyImage[index],
         description: dummyDescription[index],

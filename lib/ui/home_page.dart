@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pemula/ui/detail_page.dart';
 import 'package:flutter_pemula/utils/formatter_utils.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-import 'dummy/dummy_data.dart';
+import '../dummy/dummy_data.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -30,7 +30,13 @@ class HomePage extends StatelessWidget {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8)),
               child: InkWell(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return DetailPage(
+                      productId: listDummy[index].id,
+                    );
+                  }));
+                },
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -82,7 +88,7 @@ class HomePage extends StatelessWidget {
                                     color: Colors.red.shade100,
                                     borderRadius: BorderRadius.circular(4)),
                                 padding: const EdgeInsets.symmetric(
-                                    vertical: 1, horizontal: 4),
+                                    vertical: 3, horizontal: 4),
                                 child: Text(
                                   '${listDummy[index].discount}%',
                                   style: const TextStyle(
@@ -111,7 +117,7 @@ class HomePage extends StatelessWidget {
                                 size: 15,
                               ),
                               Text(
-                                '${listDummy[index].rating.toString()} / Terjual ${listDummy[index].sold}',
+                                '${listDummy[index].rating.toString()} | Terjual ${listDummy[index].sold}',
                                 style: const TextStyle(color: Colors.black45),
                               ),
                             ],

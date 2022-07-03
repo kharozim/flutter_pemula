@@ -82,6 +82,34 @@ final dummyDescription = [
   """
 ];
 
+final listRam = List.generate(8, (index) {
+  if (index % 2 == 0) {
+    return [4, 8, 16, 32];
+  }
+  if (index % 3 == 0) {
+    return [8, 16];
+  }
+  if (index % 5 == 0) {
+    return [16, 32];
+  } else {
+    return [16, 32];
+  }
+});
+
+final listCPU = List.generate(8, (index) {
+  if (index % 2 == 0) {
+    return ['i3 gen 11', 'i5 gen 11', 'i7 gen 11', 'i7 gen 12'];
+  }
+  if (index % 3 == 0) {
+    return ['i5 gen 11', 'i7 gen 11'];
+  }
+  if (index % 5 == 0) {
+    return ['i3 gen 11', 'i5 gen 11'];
+  } else {
+    return ['i3 gen 11', 'i7 gen 11'];
+  }
+});
+
 final listDummy = List.generate(
     8,
     (index) => ProductDomain(
@@ -110,4 +138,6 @@ final listDummy = List.generate(
             ? 4.7
             : index % 4 == 0
                 ? 4.9
-                : 4.3));
+                : 4.3,
+        ramVariant: listRam[index],
+        procieVariant: listCPU[index]));

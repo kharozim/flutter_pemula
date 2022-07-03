@@ -9,6 +9,8 @@ class ProductDomain {
   int stock;
   int sold;
   double rating;
+  List<int> ramVariant;
+  List<String> procieVariant;
 
   ProductDomain(
       {required this.id,
@@ -20,5 +22,7 @@ class ProductDomain {
       required this.stock,
       required this.discount,
       required this.sold,
-      required this.rating});
+      required this.rating,
+      required this.ramVariant,
+      required this.procieVariant});
 }

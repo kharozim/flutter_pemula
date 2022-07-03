@@ -1,10 +1,10 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_pemula/domain/product_domain.dart';
 import 'package:flutter_pemula/dummy/dummy_data.dart';
 import 'package:flutter_pemula/utils/formatter_utils.dart';
+
+import 'checkout_widget.dart';
 
 class DetailPage extends StatelessWidget {
   DetailPage({Key? key, required this.productId}) : super(key: key);
@@ -133,65 +133,5 @@ class DetailPage extends StatelessWidget {
         builder: (BuildContext dialogContex) {
           return CheckoutWidget(product: product);
         });
-  }
-}
-
-class CheckoutWidget extends StatefulWidget {
-  const CheckoutWidget({Key? key, required this.product}) : super(key: key);
-
-  final ProductDomain product;
-
-  @override
-  State<CheckoutWidget> createState() => _CheckoutWidgetState();
-}
-
-class _CheckoutWidgetState extends State<CheckoutWidget> {
-  final double heightMaster = 0.1;
-  double widthMaster = 0.1;
-  double widhcek = 20.0;
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraints) {
-      return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Row(
-          children: [
-            Flexible(flex: 1, child: Image.network(widget.product.image)),
-            Flexible(flex: 2, child: Image.network(widget.product.image)),
-          ],
-        ),
-        Flexible(
-            child: AnimatedContainer(
-          color: Colors.red,
-          duration: Duration(milliseconds: 500),
-          width: widhcek,
-          child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 12),
-            color: Colors.blue,
-            child: Container(
-              height: 20,
-              child: Image.network(
-                widget.product.image,
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-        )),
-        Container(
-          margin: const EdgeInsets.all(12),
-          width: double.maxFinite,
-          child: ElevatedButton(
-              onPressed: () {
-                if (widthMaster < 1.0) {
-                  setState(() {
-                    // widthMaster += 0.1;
-                    widhcek += 20.0;
-                  });
-                }
-              },
-              child: Text('Beli Sekarang')),
-        )
-      ]);
-    });
   }
 }

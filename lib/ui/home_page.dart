@@ -15,124 +15,16 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  _BodyContent() => SafeArea(child: LayoutBuilder(
-          builder: (BuildContext context, BoxConstraints constraints) {
-        return MasonryGridView.count(
-          padding: EdgeInsets.all(8),
-          crossAxisCount: 2,
-          mainAxisSpacing: 4,
-          crossAxisSpacing: 4,
-          itemCount: listDummy.length,
-          itemBuilder: (context, index) {
-            return Card(
-              elevation: 3,
-              clipBehavior: Clip.antiAliasWithSaveLayer,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8)),
-              child: InkWell(
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return DetailPage(
-                      productId: listDummy[index].id,
-                    );
-                  }));
-                },
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Image.network(
-                      listDummy[index].image,
-                      width: constraints.maxHeight,
-                      fit: BoxFit.cover,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: ClipRRect(
-                        borderRadius: const BorderRadius.only(
-                            topRight: Radius.circular(8),
-                            bottomRight: Radius.circular(8)),
-                        child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 4.0, horizontal: 8.0),
-                            color: _getColor(listDummy[index].tag),
-                            child: Text(
-                              listDummy[index].tag,
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 10,
-                                  color: Colors.white70),
-                            )),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            listDummy[index].name,
-                            style: TextStyle(
-                              color: Colors.grey[900],
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            FormatterUtils.convertToIdr(listDummy[index].price),
-                            style: const TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          Row(
-                            children: [
-                              Container(
-                                margin: const EdgeInsets.symmetric(vertical: 8),
-                                decoration: BoxDecoration(
-                                    color: Colors.red.shade100,
-                                    borderRadius: BorderRadius.circular(4)),
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 3, horizontal: 4),
-                                child: Text(
-                                  '${listDummy[index].discount}%',
-                                  style: const TextStyle(
-                                      fontSize: 11,
-                                      color: Colors.red,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              const SizedBox(width: 4),
-                              Text(
-                                _getBrutoPrice(listDummy[index].discount,
-                                    listDummy[index].price),
-                                style: const TextStyle(
-                                    fontSize: 10,
-                                    decoration: TextDecoration.lineThrough,
-                                    color: Colors.grey),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 4),
-                          Row(
-                            children: [
-                              const Icon(
-                                Icons.star,
-                                color: Colors.amber,
-                                size: 15,
-                              ),
-                              Text(
-                                '${listDummy[index].rating.toString()} | Terjual ${listDummy[index].sold}',
-                                style: const TextStyle(color: Colors.black45),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 12)
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          },
-        );
-      }));
+  _BodyContent() => SafeArea(
+        child: LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+          if (constraints.maxWidth > 600) {
+            return _setGridviewCount(4, constraints);
+          } else {
+            return _setGridviewCount(2, constraints);
+          }
+        }),
+      );
 
   _getColor(String tag) {
     var color;
@@ -151,4 +43,121 @@ class HomePage extends StatelessWidget {
     final brutoPrice = discountPrince + price;
     return FormatterUtils.convertToIdr(brutoPrice);
   }
+
+  _setGridviewCount(int count, BoxConstraints constraints) =>
+      MasonryGridView.count(
+        padding: EdgeInsets.all(8),
+        crossAxisCount: count,
+        mainAxisSpacing: 4,
+        crossAxisSpacing: 4,
+        itemCount: listDummy.length,
+        itemBuilder: (context, index) {
+          return Card(
+            elevation: 3,
+            clipBehavior: Clip.antiAliasWithSaveLayer,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            child: InkWell(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return DetailPage(
+                    productId: listDummy[index].id,
+                  );
+                }));
+              },
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Image.network(
+                    listDummy[index].image,
+                    width: constraints.maxHeight,
+                    fit: BoxFit.cover,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.only(
+                          topRight: Radius.circular(8),
+                          bottomRight: Radius.circular(8)),
+                      child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 4.0, horizontal: 8.0),
+                          color: _getColor(listDummy[index].tag),
+                          child: Text(
+                            listDummy[index].tag,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 10,
+                                color: Colors.white70),
+                          )),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          listDummy[index].name,
+                          style: TextStyle(
+                            color: Colors.grey[900],
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          FormatterUtils.convertToIdr(listDummy[index].price),
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Row(
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.symmetric(vertical: 8),
+                              decoration: BoxDecoration(
+                                  color: Colors.red.shade100,
+                                  borderRadius: BorderRadius.circular(4)),
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 3, horizontal: 4),
+                              child: Text(
+                                '${listDummy[index].discount}%',
+                                style: const TextStyle(
+                                    fontSize: 11,
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            const SizedBox(width: 4),
+                            Text(
+                              _getBrutoPrice(listDummy[index].discount,
+                                  listDummy[index].price),
+                              style: const TextStyle(
+                                  fontSize: 10,
+                                  decoration: TextDecoration.lineThrough,
+                                  color: Colors.grey),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 4),
+                        Row(
+                          children: [
+                            const Icon(
+                              Icons.star,
+                              color: Colors.amber,
+                              size: 15,
+                            ),
+                            Text(
+                              '${listDummy[index].rating.toString()} | Terjual ${listDummy[index].sold}',
+                              style: const TextStyle(color: Colors.black45),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 12)
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      );
 }

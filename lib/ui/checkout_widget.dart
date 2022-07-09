@@ -23,118 +23,137 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
   Widget build(BuildContext context) {
     final procSize = widget.product.procieVariant.length;
     final ramSize = widget.product.procieVariant.length;
-    final fullWidth = MediaQuery.of(context).size.width;
+    final fullWidth = MediaQuery.of(context).size.width - 18;
     final fullHigh = MediaQuery.of(context).size.height / 4;
     final defaultWidth = fullWidth / procSize;
     final defaultHeight = fullHigh / ramSize;
 
-    return LayoutBuilder(builder: (context, constraints) {
       return ListView(children: [
         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            Column(
-              children: [
-                AnimatedContainer(
-                  color: Colors.green.shade200,
-                  duration: Duration(milliseconds: 500),
-                  height: ramHigh == 0 ? defaultHeight : ramHigh,
-                  child: SizedBox(
-                    width: 20,
-                    child: Image.network(
-                      widget.product.image,
+            Flexible(
+              child: Column(
+                children: [
+                  AnimatedContainer(
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.only(
+                          topRight: Radius.circular(12),
+                          topLeft: Radius.circular(12)),
+                      color: Colors.green.shade200,
                     ),
+                    duration: const Duration(milliseconds: 200),
+                    height: ramHigh == 0 ? defaultHeight : ramHigh,
+                    child: Container(
+                        padding: const EdgeInsets.only(top: 12),
+                        child: Column(
+                          children: [
+                            const Icon(Icons.speed_rounded),
+                            ramHigh > defaultHeight
+                                ? const RotatedBox(
+                                    quarterTurns: -1, child: Text('RAM'))
+                                : const SizedBox()
+                          ],
+                        )),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
+
             Flexible(
                 child: Image.network(
               widget.product.image,
-              height: fullHigh,
+              height: fullHigh + 18,
             )),
+            SizedBox(width: 20)
           ],
         ),
         Row(
           children: [
             AnimatedContainer(
-              color: Colors.red.shade200,
-              duration: Duration(milliseconds: 500),
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.only(
+                    topRight: Radius.circular(12),
+                    bottomRight: Radius.circular(12)),
+                color: Colors.red.shade200,
+              ),
+              duration: const Duration(milliseconds: 200),
               width: procWidth == 0 ? defaultWidth : procWidth,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  const SizedBox(
-                    height: 20,
-                    child: Icon(
+              child: Container(
+                padding: EdgeInsets.only(right: 8),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: const [
+                    Text('PROC'),
+                    Icon(
                       Icons.speed_rounded,
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ],
         ),
-        Flexible(
-          child: Container(
-            margin: const EdgeInsets.all(12),
-            width: double.maxFinite,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text('Processor'),
-                Wrap(
-                    spacing: 8,
-                    children: List.generate(
-                      procSize,
-                      (int index) {
-                        return ChoiceChip(
-                          label: Text(widget.product.procieVariant[index]),
-                          padding: EdgeInsets.all(4),
-                          selected: _valueProcie == index,
-                          selectedColor: Colors.amber,
-                          onSelected: (bool selected) {
-                            setState(() {
-                              _valueProcie = (selected ? index : null)!;
-                              procWidth = defaultWidth * (index + 1);
-                              print('procecor width $procWidth');
-                            });
-                          },
-                        );
-                      },
-                    )),
-                const Text('RAM'),
-                Wrap(
-                    spacing: 8,
-                    children: List.generate(
-                      widget.product.procieVariant.length,
-                      (int index) {
-                        return ChoiceChip(
-                          label: Text('${widget.product.ramVariant[index]} GB'),
-                          padding: EdgeInsets.all(4),
-                          selected: _valueRam == index,
-                          selectedColor: Colors.amber,
-                          onSelected: (bool selected) {
-                            setState(() {
-                              _valueRam = (selected ? index : null)!;
-                              ramHigh = defaultHeight * (index + 1);
-                              print('ram width $ramHigh');
-                            });
-                          },
-                        );
-                      },
-                    )),
-                Container(
-                  margin: EdgeInsets.symmetric(vertical: 12),
-                  width: double.maxFinite,
-                  child: ElevatedButton(
-                      onPressed: () {}, child: Text('Beli Sekarang')),
-                ),
-              ],
-            ),
+        Container(
+          margin: const EdgeInsets.all(12),
+          width: double.maxFinite,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('Processor'),
+              Wrap(
+                  spacing: 8,
+                  children: List.generate(
+                    procSize,
+                    (int index) {
+                      return ChoiceChip(
+                        label: Text(widget.product.procieVariant[index]),
+                        padding: EdgeInsets.all(4),
+                        selected: _valueProcie == index,
+                        selectedColor: Colors.amber,
+                        onSelected: (bool selected) {
+                          setState(() {
+                            _valueProcie = (selected ? index : null)!;
+                            procWidth = defaultWidth * (index + 1);
+                            print('procecor width $procWidth');
+                          });
+                        },
+                      );
+                    },
+                  )),
+              const Text('RAM'),
+              Wrap(
+                  spacing: 8,
+                  children: List.generate(
+                    widget.product.ramVariant.length,
+                    (int index) {
+                      print(index);
+                      return ChoiceChip(
+                        label: Text('${widget.product.ramVariant[index]} GB'),
+                        padding: EdgeInsets.all(4),
+                        selected: _valueRam == index,
+                        selectedColor: Colors.amber,
+                        onSelected: (bool selected) {
+                          setState(() {
+                            _valueRam = (selected ? index : null)!;
+                            ramHigh = defaultHeight * (index + 1);
+                            print('ram width $ramHigh');
+                          });
+                        },
+                      );
+                    },
+                  )),
+              Container(
+                margin: const EdgeInsets.symmetric(vertical: 12),
+                width: double.maxFinite,
+                child: ElevatedButton(
+                    onPressed: () {}, child: Text('Beli Sekarang')),
+              ),
+            ],
           ),
         )
       ]);
-    });
   }
 }

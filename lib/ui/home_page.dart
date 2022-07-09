@@ -11,20 +11,19 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: Text('Beli Laptop'),),
       body: _BodyContent(),
     );
   }
 
-  _BodyContent() => SafeArea(
-        child: LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints constraints) {
-          if (constraints.maxWidth > 600) {
-            return _setGridviewCount(4, constraints);
-          } else {
-            return _setGridviewCount(2, constraints);
-          }
-        }),
-      );
+  _BodyContent() => LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+    if (constraints.maxWidth > 600) {
+      return _setGridviewCount(4, constraints);
+    } else {
+      return _setGridviewCount(2, constraints);
+    }
+  });
 
   _getColor(String tag) {
     var color;
